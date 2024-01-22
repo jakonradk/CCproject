@@ -29,7 +29,7 @@ jobs:
         run: dotnet build ./CCprojectTicTacToe/CCprojectTicTacToe.csproj --configuration Release --no-restore
 
       - name: Create publish file
-        run: dotnet publish ./CCproject/CCproject.csproj --configuration Release --output ./publish
+        run: dotnet publish ./CCprojectTicTacToe/CCprojectTicTacToe.csproj --configuration Release --output ./publish
 
       - name: Deploy app to Azure App Service
         uses: azure/webapps-deploy@v2
