@@ -23,7 +23,7 @@ jobs:
           dotnet-version: 8.0.x
 
       - name: Install dependencies
-        run: dotnet restore ./CCproject/CCproject.csproj
+        run: dotnet restore ./CCprojectTicTacToe/CCprojectTicTacToe.csproj
 
       - name: Build app
-        run: dotnet build ./CCproject/CCproject.csproj --configuration Release --no-restore
+        run: dotnet build ./CCprojectTicTacToe/CCprojectTicTacToe.csproj --configuration Release --no-restore
