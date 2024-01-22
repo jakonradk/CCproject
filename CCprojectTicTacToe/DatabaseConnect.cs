@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Data.SqlClient;
 using System;
 using System.Runtime.CompilerServices;
+using System.Environment;
 
 public class DatabaseConnect {
     public string username = "";
@@ -46,7 +47,7 @@ public class DatabaseConnect {
             return "Username cannot be longer than 20 characters";
         }
         else {
-            using (var connection = new SqlConnection(@"server=.\sqlexpress;database=ccproject;integrated security=true;multipleactiveresultsets=true;trustservercertificate=true;")) {
+            using (var connection = new SqlConnection(Environment.GetEnvironmentVariable("SQLCONNSTR_ADONETCONNECT"))) {
                 connection.Open();
 
                 var check_available = new SqlCommand("select count(*) from Users where username=@username", connection);
@@ -87,7 +88,7 @@ public class DatabaseConnect {
 		opponentAbortCall = false;
 		moveAbortCall = false;
 
-		using (var connection = new SqlConnection(@"server=.\sqlexpress;database=ccproject;integrated security=true;multipleactiveresultsets=true;trustservercertificate=true;")) {
+		using (var connection = new SqlConnection(Environment.GetEnvironmentVariable("SQLCONNSTR_ADONETCONNECT"))) {
 			connection.Open();
 
 			var command = new SqlCommand("insert into Rooms (Player1_ID, Player2_ID, Turn, rst, win) values (@player1_id, 0, 1, 'false', 0)", connection);
@@ -119,7 +120,7 @@ public class DatabaseConnect {
 
 		this.opponent_name = selected_item;
 
-		using (var connection = new SqlConnection(@"server=.\sqlexpress;database=ccproject;integrated security=true;multipleactiveresultsets=true;trustservercertificate=true;")) {
+		using (var connection = new SqlConnection(Environment.GetEnvironmentVariable("SQLCONNSTR_ADONETCONNECT"))) {
 			connection.Open();
 
 			var command = new SqlCommand("update Rooms set Player2_ID=@player2_id where Rooms.Player1_ID=(select ID from Users where username=@username)", connection);
@@ -149,7 +150,7 @@ public class DatabaseConnect {
 	public List<string> reloadList() {
         List<string> result_set = new List<string>();
 
-		using (var connection = new SqlConnection(@"server=.\sqlexpress;database=ccproject;integrated security=true;multipleactiveresultsets=true;trustservercertificate=true;")) {
+		using (var connection = new SqlConnection(Environment.GetEnvironmentVariable("SQLCONNSTR_ADONETCONNECT"))) {
 			connection.Open();
 
 			var command = new SqlCommand("select Rooms.ID, Users.username from Rooms join Users on Users.ID = Rooms.Player1_ID where Rooms.win=0", connection);
@@ -170,7 +171,7 @@ public class DatabaseConnect {
 	}
 
 	public void movetoMainMenu() {
-		using (var connection = new SqlConnection(@"server=.\sqlexpress;database=ccproject;integrated security=true;multipleactiveresultsets=true;trustservercertificate=true;")) {
+		using (var connection = new SqlConnection(Environment.GetEnvironmentVariable("SQLCONNSTR_ADONETCONNECT"))) {
 			connection.Open();
 
 			var command = new SqlCommand("delete from Users where username=@username", connection);
@@ -190,7 +191,7 @@ public class DatabaseConnect {
 		this.opponent_info = "Waiting for a second player...";
 
 		this.spinning = true;
-		using (var connection = new SqlConnection(@"server=.\sqlexpress;database=ccproject;integrated security=true;multipleactiveresultsets=true;trustservercertificate=true;")) {
+		using (var connection = new SqlConnection(Environment.GetEnvironmentVariable("SQLCONNSTR_ADONETCONNECT"))) {
 			connection.Open();
 
 			var command = new SqlCommand("select Rooms.Player2_ID, Users.username from Rooms join Users on Users.ID=Rooms.Player2_ID where Player1_ID=@player1_id", connection);
@@ -233,7 +234,7 @@ public class DatabaseConnect {
 
 		this.spinning = true;
 
-		using (var connection = new SqlConnection(@"server=.\sqlexpress;database=ccproject;integrated security=true;multipleactiveresultsets=true;trustservercertificate=true;")) {
+		using (var connection = new SqlConnection(Environment.GetEnvironmentVariable("SQLCONNSTR_ADONETCONNECT"))) {
 			connection.Open();
 
 			SqlCommand command;
@@ -296,7 +297,7 @@ public class DatabaseConnect {
 	}
 
 	public void updateBoard() {
-		using (var connection = new SqlConnection(@"server=.\sqlexpress;database=ccproject;integrated security=true;multipleactiveresultsets=true;trustservercertificate=true;")) {
+		using (var connection = new SqlConnection(Environment.GetEnvironmentVariable("SQLCONNSTR_ADONETCONNECT"))) {
 			connection.Open();
 
 			SqlCommand command;
@@ -332,7 +333,7 @@ public class DatabaseConnect {
 	}
 
 	public void resetBoard() {
-		using (var connection = new SqlConnection(@"server=.\sqlexpress;database=ccproject;integrated security=true;multipleactiveresultsets=true;trustservercertificate=true;")) {
+		using (var connection = new SqlConnection(Environment.GetEnvironmentVariable("SQLCONNSTR_ADONETCONNECT"))) {
 			connection.Open();
 
 			var command = new SqlCommand("update Rooms set Turn=1, oneone=NULL, onetwo=NULL, onethree=NULL, twoone=NULL, twotwo=NULL, twothree=NULL, threeone=NULL, threetwo=NULL, threethree=NULL, rst='false', win=0 where Player1_ID=@player1_id", connection);
@@ -369,7 +370,7 @@ public class DatabaseConnect {
 				(this.spot11 == "X" && this.spot22 == "X" && this.spot33 == "X") ||
 				(this.spot13 == "X" && this.spot21 == "X" && this.spot31 == "X")) {
 
-				using (var connection = new SqlConnection(@"server=.\sqlexpress;database=ccproject;integrated security=true;multipleactiveresultsets=true;trustservercertificate=true;")) {
+				using (var connection = new SqlConnection(Environment.GetEnvironmentVariable("SQLCONNSTR_ADONETCONNECT"))) {
 					connection.Open();
 
 					var command = new SqlCommand("update Rooms set win=1 where Player1_ID=@player1_id", connection);
@@ -396,7 +397,7 @@ public class DatabaseConnect {
 				(this.spot11 == "O" && this.spot22 == "O" && this.spot33 == "O") ||
 				(this.spot13 == "O" && this.spot21 == "O" && this.spot31 == "O")) {
 
-				using (var connection = new SqlConnection(@"server=.\sqlexpress;database=ccproject;integrated security=true;multipleactiveresultsets=true;trustservercertificate=true;")) {
+				using (var connection = new SqlConnection(Environment.GetEnvironmentVariable("SQLCONNSTR_ADONETCONNECT"))) {
 					connection.Open();
 
 					var command = new SqlCommand("update Rooms set win=2 where Player2_ID=@player2_id", connection);
@@ -418,7 +419,7 @@ public class DatabaseConnect {
 	public void spot11Click() {
 		if (!this.winorlose) {
 			if (this.spot11 == "" && this.turn == 1) {
-				using (var connection = new SqlConnection(@"server=.\sqlexpress;database=ccproject;integrated security=true;multipleactiveresultsets=true;trustservercertificate=true;")) {
+				using (var connection = new SqlConnection(Environment.GetEnvironmentVariable("SQLCONNSTR_ADONETCONNECT"))) {
 					connection.Open();
 
 					SqlCommand command;
@@ -464,7 +465,7 @@ public class DatabaseConnect {
 	public void spot12Click() {
 		if (!this.winorlose) {
 			if (this.spot12 == "" && this.turn == 1) {
-				using (var connection = new SqlConnection(@"server=.\sqlexpress;database=ccproject;integrated security=true;multipleactiveresultsets=true;trustservercertificate=true;")) {
+				using (var connection = new SqlConnection(Environment.GetEnvironmentVariable("SQLCONNSTR_ADONETCONNECT"))) {
 					connection.Open();
 
 					SqlCommand command;
@@ -509,7 +510,7 @@ public class DatabaseConnect {
 	public void spot13Click() {
 		if (!this.winorlose) {
 			if (this.spot13 == "" && this.turn == 1) {
-				using (var connection = new SqlConnection(@"server=.\sqlexpress;database=ccproject;integrated security=true;multipleactiveresultsets=true;trustservercertificate=true;")) {
+				using (var connection = new SqlConnection(Environment.GetEnvironmentVariable("SQLCONNSTR_ADONETCONNECT"))) {
 					connection.Open();
 
 					SqlCommand command;
@@ -554,7 +555,7 @@ public class DatabaseConnect {
 	public void spot21Click() {
 		if (!this.winorlose) {
 			if (this.spot21 == "" && this.turn == 1) {
-				using (var connection = new SqlConnection(@"server=.\sqlexpress;database=ccproject;integrated security=true;multipleactiveresultsets=true;trustservercertificate=true;")) {
+				using (var connection = new SqlConnection(Environment.GetEnvironmentVariable("SQLCONNSTR_ADONETCONNECT"))) {
 					connection.Open();
 
 					SqlCommand command;
@@ -599,7 +600,7 @@ public class DatabaseConnect {
 	public void spot22Click() {
 		if (!this.winorlose) {
 			if (this.spot22 == "" && this.turn == 1) {
-				using (var connection = new SqlConnection(@"server=.\sqlexpress;database=ccproject;integrated security=true;multipleactiveresultsets=true;trustservercertificate=true;")) {
+				using (var connection = new SqlConnection(Environment.GetEnvironmentVariable("SQLCONNSTR_ADONETCONNECT"))) {
 					connection.Open();
 
 					SqlCommand command;
@@ -644,7 +645,7 @@ public class DatabaseConnect {
 	public void spot23Click() {
 		if (!this.winorlose) {
 			if (this.spot23 == "" && this.turn == 1) {
-				using (var connection = new SqlConnection(@"server=.\sqlexpress;database=ccproject;integrated security=true;multipleactiveresultsets=true;trustservercertificate=true;")) {
+				using (var connection = new SqlConnection(Environment.GetEnvironmentVariable("SQLCONNSTR_ADONETCONNECT"))) {
 					connection.Open();
 
 					SqlCommand command;
@@ -689,7 +690,7 @@ public class DatabaseConnect {
 	public void spot31Click() {
 		if (!this.winorlose) {
 			if (this.spot31 == "" && this.turn == 1) {
-				using (var connection = new SqlConnection(@"server=.\sqlexpress;database=ccproject;integrated security=true;multipleactiveresultsets=true;trustservercertificate=true;")) {
+				using (var connection = new SqlConnection(Environment.GetEnvironmentVariable("SQLCONNSTR_ADONETCONNECT"))) {
 					connection.Open();
 
 					SqlCommand command;
@@ -734,7 +735,7 @@ public class DatabaseConnect {
 	public void spot32Click() {
 		if (!this.winorlose) {
 			if (this.spot32 == "" && this.turn == 1) {
-				using (var connection = new SqlConnection(@"server=.\sqlexpress;database=ccproject;integrated security=true;multipleactiveresultsets=true;trustservercertificate=true;")) {
+				using (var connection = new SqlConnection(Environment.GetEnvironmentVariable("SQLCONNSTR_ADONETCONNECT"))) {
 					connection.Open();
 
 					SqlCommand command;
@@ -779,7 +780,7 @@ public class DatabaseConnect {
 	public void spot33Click() {
 		if (!this.winorlose) {
 			if (this.spot33 == "" && this.turn == 1) {
-				using (var connection = new SqlConnection(@"server=.\sqlexpress;database=ccproject;integrated security=true;multipleactiveresultsets=true;trustservercertificate=true;")) {
+				using (var connection = new SqlConnection(Environment.GetEnvironmentVariable("SQLCONNSTR_ADONETCONNECT"))) {
 					connection.Open();
 
 					SqlCommand command;
@@ -843,7 +844,7 @@ public class DatabaseConnect {
 		spot33 = "";
 
 		if (this.room_owner == 0) {
-			using (var connection = new SqlConnection(@"server=.\sqlexpress;database=ccproject;integrated security=true;multipleactiveresultsets=true;trustservercertificate=true;")) {
+			using (var connection = new SqlConnection(Environment.GetEnvironmentVariable("SQLCONNSTR_ADONETCONNECT"))) {
 				connection.Open();
 
 				var checkSecond = new SqlCommand("select Player2_ID from Rooms where Player1_ID=@player1_id", connection);
@@ -872,7 +873,7 @@ public class DatabaseConnect {
 			}
 		}
 		else {
-			using (var connection = new SqlConnection(@"server=.\sqlexpress;database=ccproject;integrated security=true;multipleactiveresultsets=true;trustservercertificate=true;")) {
+			using (var connection = new SqlConnection(Environment.GetEnvironmentVariable("SQLCONNSTR_ADONETCONNECT"))) {
 				connection.Open();
 
 				var checkSecond = new SqlCommand("select Player2_ID from Rooms where Player1_ID=@player1_id", connection);
