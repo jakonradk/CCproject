@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Data.SqlClient;
 using System;
 using System.Runtime.CompilerServices;
-using System.Environment;
 
 public class DatabaseConnect {
     public string username = "";
