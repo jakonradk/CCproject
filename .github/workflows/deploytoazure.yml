@@ -1,0 +1,29 @@
+name: Deploy project to Azure
+
+on:
+  push:
+    branches: [ "master" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    
+    env:
+      Solution_Name: CCprojectTicTacToe.sln
+      AZURE_WEBAPP_NAME: "ccprojecttictactoe"
+      
+      
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Install dependencies
+        run: dotnet restore ./CCproject/CCproject.csproj
+
+      - name: Build app
+        run: dotnet build ./CCproject/CCproject.csproj --configuration Release --no-restore
