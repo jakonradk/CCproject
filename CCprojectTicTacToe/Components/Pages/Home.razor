@@ -1,0 +1,30 @@
+﻿@page "/"
+@inject NavigationManager NavManager
+@inherits DatabaseSetup
+
+<PageTitle>Start</PageTitle>
+
+<h1 id="start">Tic-Tac-Toe</h1>
+
+<p id="start">Please enter your username:</p>
+
+<div id="start">
+    <input type="text" maxlength="20" @bind="@username" />
+</div>
+
+<br />
+
+<div id="start">
+    <button @onclick="movetoRoomList">Start game</button>
+</div>
+
+@code {
+    public string username { get; set; } = "";
+
+    public void movetoRoomList() {
+        username = DatabaseSetup.db.moveToRoomList(username);
+        if (username == "") {
+            NavManager.NavigateTo("/room_list");
+        }
+    }
+}

@@ -1,0 +1,54 @@
+﻿@page "/room_list"
+@inject NavigationManager NavManager
+@inherits DatabaseSetup
+
+<PageTitle>Room list</PageTitle>
+
+<h1 id="start">List of available rooms:</h1>
+
+<div id="start">
+	<select @bind="@selected_value">
+		@foreach (string name in @rooms) {
+			<option value="@name">@name</option>
+		}
+	</select>
+</div>
+
+<br />
+
+<div id="start">
+	<button @onclick=createnewroom>Create a new room</button>
+	<button @onclick=enterroom>Enter the chosen room</button>
+	<button @onclick=refreshrooms>Refresh the room list</button>
+	<button @onclick=leavetomainmenu>Leave to main menu</button>
+</div>
+
+@code {
+	List<string> rooms { get; set; } = DatabaseSetup.db.reloadList();
+
+	string selected_value { get; set; } = "";
+
+	public void createnewroom() {
+		DatabaseSetup.db.createNewRoom();
+
+		NavManager.NavigateTo("/game");
+	}
+
+	public void enterroom() {
+		if (selected_value != "") {
+			DatabaseSetup.db.enterRoom(selected_value);
+
+			NavManager.NavigateTo("/game");
+		}
+	}
+
+	public void refreshrooms() {
+		rooms = DatabaseSetup.db.reloadList();
+	}
+
+	public void leavetomainmenu() {
+		DatabaseSetup.db.movetoMainMenu();
+		
+		NavManager.NavigateTo("/");
+	}
+}

@@ -1,0 +1,163 @@
+﻿@page "/game"
+@inject NavigationManager NavManager
+@inherits DatabaseSetup
+@implements IDisposable
+
+<p>@opponent_info @opponent</p>
+
+<div id="start">
+	<button @onclick=spot11>@spot11value</button>
+	<button @onclick=spot12>@spot12value</button>
+	<button @onclick=spot13>@spot13value</button>
+</div>
+<div id="start">
+	<button @onclick=spot21>@spot21value</button>
+	<button @onclick=spot22>@spot22value</button>
+	<button @onclick=spot23>@spot23value</button>
+</div>
+<div id="start">
+	<button @onclick=spot31>@spot31value</button>
+	<button @onclick=spot32>@spot32value</button>
+	<button @onclick=spot33>@spot33value</button>
+</div>
+
+<br />
+
+<p id="start">@game_info</p>
+
+<br />
+
+<div id="start">
+	<button @onclick=leavetoroomlist>Leave to room list</button>
+</div>
+
+@code {
+	public string opponent_info { get; set; } = "";
+	public string opponent { get; set; } = "";
+	public string game_info { get; set; } = "";
+
+	public string spot11value { get; set; } = "";
+	public string spot12value { get; set; } = "";
+	public string spot13value { get; set; } = "";
+	public string spot21value { get; set; } = "";
+	public string spot22value { get; set; } = "";
+	public string spot23value { get; set; } = "";
+	public string spot31value { get; set; } = "";
+	public string spot32value { get; set; } = "";
+	public string spot33value { get; set; } = "";
+
+	private static System.Timers.Timer _timer;
+	private int counter = 300;
+
+	protected override void OnAfterRender(bool firstRender) {
+		opponent_info = DatabaseSetup.db.opponent_info;
+		opponent = DatabaseSetup.db.opponent_name;
+		game_info = DatabaseSetup.db.game_info;
+
+		spot11value = DatabaseSetup.db.spot11;
+		spot12value = DatabaseSetup.db.spot12;
+		spot13value = DatabaseSetup.db.spot13;
+		spot21value = DatabaseSetup.db.spot21;
+		spot22value = DatabaseSetup.db.spot22;
+		spot23value = DatabaseSetup.db.spot23;
+		spot31value = DatabaseSetup.db.spot31;
+		spot32value = DatabaseSetup.db.spot32;
+		spot33value = DatabaseSetup.db.spot33;
+
+		if (firstRender) {
+			StartTimer();
+
+			if (DatabaseSetup.db.room_owner == 1) {
+				Thread spin = new Thread(new ThreadStart(DatabaseSetup.db.waitForOpponent));
+				spin.Start();
+			}
+			else {
+				Thread spin = new Thread(new ThreadStart(DatabaseSetup.db.waitForNextMove));
+				spin.Start();
+			}
+		}
+	}
+
+	/*protected override void OnInitialized() {
+		StartTimer();
+
+		if (DatabaseSetup.db.room_owner == 1) {
+
+			DatabaseSetup.db.opponent_name = "";
+			DatabaseSetup.db.opponent_info = "Waiting for a second player...";
+			DatabaseSetup.db.game_info = "Waiting...";
+
+			Thread spin = new Thread(new ThreadStart(DatabaseSetup.db.waitForOpponent));
+			spin.Start();
+		}
+		else {
+			Thread spin = new Thread(new ThreadStart(DatabaseSetup.db.waitForNextMove));
+			spin.Start();
+		}
+	}*/
+
+	public void StartTimer() {
+		_timer = new System.Timers.Timer(1000);
+		_timer.Elapsed += CountDownTimer;
+		_timer.Enabled = true;
+	}
+
+	public async void CountDownTimer(Object source, System.Timers.ElapsedEventArgs e) {
+		if (counter > 0) {
+			counter -= 1;
+		}
+		else {
+			_timer.Enabled = false;
+		}
+
+		await InvokeAsync(async () => {
+			StateHasChanged();
+		});
+	}
+
+	public void Dispose() {
+		_timer?.Dispose();
+	}
+
+	public void spot11() {
+		DatabaseSetup.db.spot11Click();
+	}
+
+	public void spot12() {
+		DatabaseSetup.db.spot12Click();
+	}
+
+	public void spot13() {
+		DatabaseSetup.db.spot13Click();
+	}
+
+	public void spot21() {
+		DatabaseSetup.db.spot21Click();
+	}
+
+	public void spot22() {
+		DatabaseSetup.db.spot22Click();
+	}
+
+	public void spot23() {
+		DatabaseSetup.db.spot23Click();
+	}
+
+	public void spot31() {
+		DatabaseSetup.db.spot31Click();
+	}
+
+	public void spot32() {
+		DatabaseSetup.db.spot32Click();
+	}
+
+	public void spot33() {
+		DatabaseSetup.db.spot33Click();
+	}
+
+	public void leavetoroomlist() {
+		DatabaseSetup.db.moveToRoomList();
+
+		NavManager.NavigateTo("/room_list");
+	}
+}
