@@ -1,6 +1,6 @@
 ﻿@page "/game"
 @inject NavigationManager NavManager
-@inherits DatabaseSetup
+@inject DatabaseConnect db
 @implements IDisposable
 
 <p>@opponent_info @opponent</p>
@@ -50,51 +50,33 @@
 	private int counter = 300;
 
 	protected override void OnAfterRender(bool firstRender) {
-		opponent_info = DatabaseSetup.db.opponent_info;
-		opponent = DatabaseSetup.db.opponent_name;
-		game_info = DatabaseSetup.db.game_info;
+		opponent_info = db.opponent_info;
+		opponent = db.opponent_name;
+		game_info = db.game_info;
 
-		spot11value = DatabaseSetup.db.spot11;
-		spot12value = DatabaseSetup.db.spot12;
-		spot13value = DatabaseSetup.db.spot13;
-		spot21value = DatabaseSetup.db.spot21;
-		spot22value = DatabaseSetup.db.spot22;
-		spot23value = DatabaseSetup.db.spot23;
-		spot31value = DatabaseSetup.db.spot31;
-		spot32value = DatabaseSetup.db.spot32;
-		spot33value = DatabaseSetup.db.spot33;
+		spot11value = db.spot11;
+		spot12value = db.spot12;
+		spot13value = db.spot13;
+		spot21value = db.spot21;
+		spot22value = db.spot22;
+		spot23value = db.spot23;
+		spot31value = db.spot31;
+		spot32value = db.spot32;
+		spot33value = db.spot33;
 
 		if (firstRender) {
 			StartTimer();
 
-			if (DatabaseSetup.db.room_owner == 1) {
-				Thread spin = new Thread(new ThreadStart(DatabaseSetup.db.waitForOpponent));
+			if (db.room_owner == 1) {
+				Thread spin = new Thread(new ThreadStart(db.waitForOpponent));
 				spin.Start();
 			}
 			else {
-				Thread spin = new Thread(new ThreadStart(DatabaseSetup.db.waitForNextMove));
+				Thread spin = new Thread(new ThreadStart(db.waitForNextMove));
 				spin.Start();
 			}
 		}
 	}
-
-	/*protected override void OnInitialized() {
-		StartTimer();
-
-		if (DatabaseSetup.db.room_owner == 1) {
-
-			DatabaseSetup.db.opponent_name = "";
-			DatabaseSetup.db.opponent_info = "Waiting for a second player...";
-			DatabaseSetup.db.game_info = "Waiting...";
-
-			Thread spin = new Thread(new ThreadStart(DatabaseSetup.db.waitForOpponent));
-			spin.Start();
-		}
-		else {
-			Thread spin = new Thread(new ThreadStart(DatabaseSetup.db.waitForNextMove));
-			spin.Start();
-		}
-	}*/
 
 	public void StartTimer() {
 		_timer = new System.Timers.Timer(1000);
@@ -120,43 +102,43 @@
 	}
 
 	public void spot11() {
-		DatabaseSetup.db.spot11Click();
+		db.spot11Click();
 	}
 
 	public void spot12() {
-		DatabaseSetup.db.spot12Click();
+		db.spot12Click();
 	}
 
 	public void spot13() {
-		DatabaseSetup.db.spot13Click();
+		db.spot13Click();
 	}
 
 	public void spot21() {
-		DatabaseSetup.db.spot21Click();
+		db.spot21Click();
 	}
 
 	public void spot22() {
-		DatabaseSetup.db.spot22Click();
+		db.spot22Click();
 	}
 
 	public void spot23() {
-		DatabaseSetup.db.spot23Click();
+		db.spot23Click();
 	}
 
 	public void spot31() {
-		DatabaseSetup.db.spot31Click();
+		db.spot31Click();
 	}
 
 	public void spot32() {
-		DatabaseSetup.db.spot32Click();
+		db.spot32Click();
 	}
 
 	public void spot33() {
-		DatabaseSetup.db.spot33Click();
+		db.spot33Click();
 	}
 
 	public void leavetoroomlist() {
-		DatabaseSetup.db.moveToRoomList();
+		db.moveToRoomList();
 
 		NavManager.NavigateTo("/room_list");
 	}

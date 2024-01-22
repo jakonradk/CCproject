@@ -907,7 +907,3 @@ public class DatabaseConnect {
 		moveAbortCall = true;
 	}
 }
-
-public abstract class DatabaseSetup : ComponentBase {
-    public static DatabaseConnect db = new DatabaseConnect();
-}

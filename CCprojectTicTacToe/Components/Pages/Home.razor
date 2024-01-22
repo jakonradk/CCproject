@@ -1,6 +1,6 @@
 ﻿@page "/"
 @inject NavigationManager NavManager
-@inherits DatabaseSetup
+@inject DatabaseConnect db
 
 <PageTitle>Start</PageTitle>
 
@@ -22,7 +22,7 @@
     public string username { get; set; } = "";
 
     public void movetoRoomList() {
-        username = DatabaseSetup.db.moveToRoomList(username);
+        username = db.moveToRoomList(username);
         if (username == "") {
             NavManager.NavigateTo("/room_list");
         }

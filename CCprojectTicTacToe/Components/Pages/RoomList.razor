@@ -1,6 +1,6 @@
 ﻿@page "/room_list"
 @inject NavigationManager NavManager
-@inherits DatabaseSetup
+@inject DatabaseConnect db
 
 <PageTitle>Room list</PageTitle>
 
@@ -24,30 +24,34 @@
 </div>
 
 @code {
-	List<string> rooms { get; set; } = DatabaseSetup.db.reloadList();
+	List<string> rooms { get; set; } = new List<string>();
+
+	protected override void OnInitialized() {
+		rooms = db.reloadList();
+	}
 
 	string selected_value { get; set; } = "";
 
 	public void createnewroom() {
-		DatabaseSetup.db.createNewRoom();
+		db.createNewRoom();
 
 		NavManager.NavigateTo("/game");
 	}
 
 	public void enterroom() {
 		if (selected_value != "") {
-			DatabaseSetup.db.enterRoom(selected_value);
+			db.enterRoom(selected_value);
 
 			NavManager.NavigateTo("/game");
 		}
 	}
 
 	public void refreshrooms() {
-		rooms = DatabaseSetup.db.reloadList();
+		rooms = db.reloadList();
 	}
 
 	public void leavetomainmenu() {
-		DatabaseSetup.db.movetoMainMenu();
+		db.movetoMainMenu();
 		
 		NavManager.NavigateTo("/");
 	}
