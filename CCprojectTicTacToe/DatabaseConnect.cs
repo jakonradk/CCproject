@@ -2,9 +2,9 @@
 
 namespace CCproject {
 	public class DatabaseConnect {
-		public var username = "";
-		public var username_id = 0;
-		public var current_room_id = 0;
+		public string username = "";
+		public Int32 username_id = 0;
+		public Int32 current_room_id = 0;
 
 		public string opponent_name;
 		public string opponent_info;
