@@ -8,6 +8,7 @@
 
 <div id="start">
 	<select @bind="@selected_value">
+		<option value="" selected disabled hidden>Choose room</option>
 		@foreach (string name in @rooms) {
 			<option value="@name">@name</option>
 		}

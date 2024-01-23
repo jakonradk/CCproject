@@ -29,9 +29,7 @@ public class DatabaseConnect {
 
 	public string game_info;
 
-	public DatabaseConnect() {
-
-	}
+	public DatabaseConnect() { }
 
 	public string moveToRoomList(string username) {
 		if (username.Length < 1) {
@@ -40,7 +38,8 @@ public class DatabaseConnect {
 		else if (username.Length > 20) {
 			return "Username cannot be longer than 20 characters";
 		}
-		else {
+		else
+		{
 			using (SqlConnection connection = new SqlConnection(Environment.GetEnvironmentVariable("SQLCONNSTR_ADONETCONNECT"))) {
 				connection.Open();
 
