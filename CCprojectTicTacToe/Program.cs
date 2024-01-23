@@ -6,7 +6,7 @@ WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
 	.AddInteractiveServerComponents();
 
-builder.Services.AddScoped<DatabaseConnect>();
+builder.Services.AddScoped<CCproject.DatabaseConnect>();
 
 WebApplication app = builder.Build();
 
