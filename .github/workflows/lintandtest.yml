@@ -1,6 +1,8 @@
 name: Lint project and test
 
 on:
+  push:
+    branches: [ "master" ]
   workflow_dispatch:
 
 jobs:
@@ -13,7 +15,6 @@ jobs:
       
       
     steps:
-      - name: Checkout
       - uses: actions/checkout@v3
       
       - name: Setup .NET
@@ -25,4 +26,4 @@ jobs:
         run: dotnet restore ./CCprojectTicTacToe/CCprojectTicTacToe.csproj
 
       - name: Lint app
-        run: dotnet format ./CCprojectTicTacToe/CCprojectTicTacToe.csproj --severity info --verify-no-changes --report ./
+        run: dotnet format ./CCprojectTicTacToe/CCprojectTicTacToe.csproj --severity info --verify-no-changes --report ./Utility
