@@ -43,8 +43,8 @@ namespace CCproject {
 				using (SqlConnection connection = new SqlConnection(Environment.GetEnvironmentVariable("SQLCONNSTR_ADONETCONNECT"))) {
 					connection.Open();
 
-					var check_available = new SqlCommand("select count(*) from Users where username=@username", connection);
-					_ = check_available.Parameters.AddWithValue("username", username);
+					SqlCommand check_available = new SqlCommand("select count(*) from Users where username=@username", connection);
+					_ = check_available. Parameters.AddWithValue("username", username);
 
 					SqlCommand command = new SqlCommand("insert into Users values (@username)", connection);
 					_ = command.Parameters.AddWithValue("username", username);
