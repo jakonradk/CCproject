@@ -1,0 +1,28 @@
+name: Lint project and test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  lint:
+    runs-on: windows-latest
+    
+    env:
+      Solution_Name: CCprojectTicTacToe.sln
+      SQLCONNSTR_ADONETCONNECT: ${{ secrets.SQLCONNSTR_ADONETCONNECT }}
+      
+      
+    steps:
+      - name: Checkout
+      - uses: actions/checkout@v3
+      
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Install dependencies
+        run: dotnet restore ./CCprojectTicTacToe/CCprojectTicTacToe.csproj
+
+      - name: Lint app
+        run: dotnet format ./CCprojectTicTacToe/CCprojectTicTacToe.csproj --severity info --verify-no-changes --report ./
