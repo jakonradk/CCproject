@@ -1,5 +1,5 @@
-using Xunit;
 using CCprojectTicTacToe;
+using Xunit;
 
 namespace CCproject;
 
