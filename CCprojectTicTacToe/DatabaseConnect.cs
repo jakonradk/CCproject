@@ -2,9 +2,9 @@
 
 namespace CCproject {
 	public class DatabaseConnect {
-		public string username = "";
-		public int username_id = 0;
-		public int current_room_id = 0;
+		public var username = "";
+		public var username_id = 0;
+		public var current_room_id = 0;
 
 		public string opponent_name;
 		public string opponent_info;
@@ -44,7 +44,7 @@ namespace CCproject {
 					connection.Open();
 
 					SqlCommand check_available = new SqlCommand("select count(*) from Users where username=@username", connection);
-					_ = check_available. Parameters.AddWithValue("username", username);
+					_ = check_available.Parameters.AddWithValue("username", username);
 
 					SqlCommand command = new SqlCommand("insert into Users values (@username)", connection);
 					_ = command.Parameters.AddWithValue("username", username);
