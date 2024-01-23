@@ -25,5 +25,8 @@ jobs:
       - name: Install dependencies
         run: dotnet restore ./CCprojectTicTacToe/CCprojectTicTacToe.csproj
 
-      - name: Lint app
-        run: dotnet format --verify-no-changes --verbosity diagnostic --report ./Utility
+      - name: Lint app (analyzers)
+        run: dotnet format analyzers --verify-no-changes
+
+      - name: Lint app (style)
+        run: dotnet format style --verify-no-changes
