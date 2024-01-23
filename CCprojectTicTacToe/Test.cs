@@ -7,7 +7,7 @@ public class Test {
 	public void DatabaseConnectTest() {
 		DatabaseConnect db = new DatabaseConnect();
 
-		Assert.True(db.spinning == false);
+		Assert.True(!db.spinning);
 		Assert.False(db.game_info is not null);
 	}
 }
