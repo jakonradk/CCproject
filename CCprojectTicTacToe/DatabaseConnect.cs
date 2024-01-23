@@ -3,8 +3,8 @@
 namespace CCproject {
 	public class DatabaseConnect {
 		public string username = "";
-		public Int32 username_id = 0;
-		public Int32 current_room_id = 0;
+		public int username_id = 0;
+		public int current_room_id = 0;
 
 		public string opponent_name;
 		public string opponent_info;
@@ -34,10 +34,10 @@ namespace CCproject {
 
 		public string moveToRoomList(string username) {
 			if (username.Length < 1) {
-				return "Username must be at least 1 character long";
+			return "Username must be at least 1 character long";
 			}
 			else if (username.Length > 20) {
-				return "Username cannot be longer than 20 characters";
+			return "Username cannot be longer than 20 characters";
 			}
 			else {
 				using (SqlConnection connection = new SqlConnection(Environment.GetEnvironmentVariable("SQLCONNSTR_ADONETCONNECT"))) {
