@@ -26,7 +26,7 @@ jobs:
         run: dotnet restore ./CCprojectTicTacToe/CCprojectTicTacToe.csproj
 
       - name: Lint app (analyzers)
-        run: dotnet format analyzers --verify-no-changes
+        run: dotnet format analyzers --verify-no-changes --verbosity diagnostic
 
       - name: Lint app (style)
-        run: dotnet format style --verify-no-changes
+        run: dotnet format style --verify-no-changes --verbosity diagnostic
