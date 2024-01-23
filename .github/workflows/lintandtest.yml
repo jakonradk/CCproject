@@ -26,4 +26,4 @@ jobs:
         run: dotnet restore ./CCprojectTicTacToe/CCprojectTicTacToe.csproj
 
       - name: Lint app
-        run: dotnet format ./CCprojectTicTacToe/CCprojectTicTacToe.csproj --severity info --report ./Utility
+        run: dotnet format --verify-no-changes --verbosity diagnostic --report ./Utility
