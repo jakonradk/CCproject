@@ -39,12 +39,11 @@ namespace CCproject {
 			else if (username.Length > 20) {
 				return "Username cannot be longer than 20 characters";
 			}
-			else
-			{
+			else {
 				using (SqlConnection connection = new SqlConnection(Environment.GetEnvironmentVariable("SQLCONNSTR_ADONETCONNECT"))) {
 					connection.Open();
 
-					SqlCommand check_available = new SqlCommand("select count(*) from Users where username=@username", connection);
+					var check_available = new SqlCommand("select count(*) from Users where username=@username", connection);
 					_ = check_available.Parameters.AddWithValue("username", username);
 
 					SqlCommand command = new SqlCommand("insert into Users values (@username)", connection);
