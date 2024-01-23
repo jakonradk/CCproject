@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.4" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="NuGet.Frameworks" Version="6.8.0" />
     <PackageReference Include="xunit" Version="2.6.6" />
   </ItemGroup>
 
