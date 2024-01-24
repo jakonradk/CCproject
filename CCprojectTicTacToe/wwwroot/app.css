@@ -15,6 +15,10 @@ html, body {
     height: 64px;
 }
 
+.test {
+    color: red;
+}
+
 h1:focus {
     outline: none;
 }
